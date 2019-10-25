@@ -234,7 +234,7 @@ class TrekGame(object):
         klingons=False
         for i in range (0,64):
             if i%8 == 0:
-                print
+                print()
                 time.sleep(0.2 * self.second_coefficient)
             if current_sector[i]<0:
                 klingons=True
