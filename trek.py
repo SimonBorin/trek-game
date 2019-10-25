@@ -238,15 +238,15 @@ class TrekGame(object):
                 time.sleep(0.2 * self.second_coefficient)
             if current_sector[i]<0:
                 klingons=True
-                print( ">!<")
+                print( ">!<", end=" ")
             elif current_sector[i]==0:
-                print (" . ")
+                print (" . ", end=" ")
             elif current_sector[i]==2:
-                print ("<O>")
+                print ("<O>", end=" ")
             elif current_sector[i]==3:
-                print (" * ")
+                print (" * ", end=" ")
             else:
-                print ("-O-")
+                print ("-O-", end=" ")
         print()
         # Work out condition
         if klingons == False:
