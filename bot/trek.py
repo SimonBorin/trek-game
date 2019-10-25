@@ -524,7 +524,7 @@ if __name__ == '__main__':
     game = TrekGame()
     # game.main()
 
-    bot = telebot.TeleBot('927801486:AAEgpciU8QTr9zAPBr2Hrkuf7tcGgSOryBE')
+    bot = telebot.TeleBot('')
 
     @bot.message_handler(commands=['start'])
     def start_message(message):
