@@ -1,21 +1,30 @@
 import random
 import time
+import telebot
+
 
 class TrekGame(object):
+
     def __init__(self, max_speed=False, test_mode=False):
         self.second_coefficient = 1.0
         self.test_mode = test_mode
         if max_speed:
             self.make_max_speed()
 
+        
+
+    
+
     def make_max_speed(self):
         self.second_coefficient = 0
 
     def test_input(self, prompt, input_):
         if self.test_mode:
-            return input_
+            command = input_
         else:
-            return input(prompt)
+            command =  input(prompt)
+        return command
+
 
     def main(self, test_arg=None):
         self.blurb()
@@ -174,15 +183,30 @@ class TrekGame(object):
      
     def blurb(self):
         print ("\nSpace ... the final frontier.")
+        # start_message_1 = "Space ... the final frontier."
         time.sleep(1.5 * self.second_coefficient)
         print ("These are the voyages of the starship Enterprise")
         print( "Its five year mission ...")
+        # start_message_2 = ''' These are the voyages of the starship Enterprise \n
+            # Its five year mission ... '''
         time.sleep(1.5 * self.second_coefficient)
         print ("... to boldly go where no-one has gone before")
+        # start_message_3 = "... to boldly go where no-one has gone before"
         time.sleep(1.5 * self.second_coefficient)
         print ("You are Captain Kirk.")
         print ("Your mission is to destroy all of the Klingons in the galaxy.")
+        # start_message_4 = '''You are Captain Kirk. \n
+            # Your mission is to destroy all of the Klingons in the galaxy. '''
         time.sleep(2.5 * self.second_coefficient)
+        self.start_message = '''
+            Space ... the final frontier.
+            These are the voyages of the starship Enterprise
+            Its five year mission ... 
+            ... to boldly go where no-one has gone before
+            You are Captain Kirk.
+            Your mission is to destroy all of the Klingons in the galaxy.
+        '''
+        return start_message
            
     def promotion(self):
         print ("\nYou have successfully completed your mission!")
@@ -496,5 +520,35 @@ class TrekGame(object):
         print ("6 - Resign")
     
 if __name__ == '__main__':
+
     game = TrekGame()
-    game.main()
+    # game.main()
+
+    bot = telebot.TeleBot('927801486:AAEgpciU8QTr9zAPBr2Hrkuf7tcGgSOryBE')
+
+    @bot.message_handler(commands=['start'])
+    def start_message(message):
+        game = TrekGame()
+        # game.main()
+        text = game.blurb()
+        bot.send_message(message.chat.id,text)
+        
+    @bot.message_handler(content_types=['text'])
+    def send_text(message):
+        if message.text.lower() == '0':
+            bot.send_message(message.chat.id, 'help')
+        elif message.text.lower() == '1':
+            bot.send_message(message.chat.id, 'Helm')
+        elif message.text.lower() == '2':
+            bot.send_message(message.chat.id, 'Long Range Scan')
+        elif message.text.lower() == '3':
+            bot.send_message(message.chat.id, 'Phasers')
+        elif message.text.lower() == '4':
+            bot.send_message(message.chat.id, 'Photon Torpedoes')
+        elif message.text.lower() == '5':
+            bot.send_message(message.chat.id, 'Shields')
+        elif message.text.lower() == '6':
+            bot.send_message(message.chat.id, 'Resign')
+    bot.polling()
+
+   
