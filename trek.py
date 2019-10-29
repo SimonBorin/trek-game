@@ -11,11 +11,11 @@ class TrekGame(object):
     def make_max_speed(self):
         self.second_coefficient = 0
 
-    def test_input(self, prompt, input):
+    def test_input(self, prompt, input_):
         if self.test_mode:
-            return input
+            return input_
         else:
-            return raw_input(prompt)
+            return input(prompt)
 
     def main(self, test_arg=None):
         self.blurb()
@@ -105,7 +105,7 @@ class TrekGame(object):
                     x=ks
                 # Do we still have shields left?
                 if shields < 0:
-                    print "Enterprise dead in space"
+                    print ("Enterprise dead in space")
                     energy = 0
                 else:
                     condition=self.srs(current_sector,ent_position)
@@ -131,19 +131,19 @@ class TrekGame(object):
                 # Set quit condition by making energy = 0
                 energy = 0
             else:
-                print "Command not recognised captain"
+                print ("Command not recognised captain")
             # After a command has been issued and condition is Red, a klingon may
             # fire randomly on the enterprise!
             if condition == "Red" and command != 0:
                 if random.randint(1,9)<6:
-                    print "Red alert - Klingons attacking!"
+                    print ("Red alert - Klingons attacking!")
                     time.sleep(0.5 * self.second_coefficient)
                     damage=x*random.randint(1,50)
                     shields=shields-damage
-                    print "Hit on shields: ",damage," energy units"
+                    print ("Hit on shields: ",damage," energy units")
                     # Do we still have shields left?
                     if shields < 0:
-                        print "Enterprise dead in space"
+                        print ("Enterprise dead in space")
                         energy = 0
                     else:
                         condition=self.srs(current_sector,ent_position)
@@ -159,38 +159,38 @@ class TrekGame(object):
         
     def status(self,sector,stardate,condition,energy,torpedoes,shields,klingons):
         time.sleep(0.2 * self.second_coefficient)
-        print "\nStardate:           ",stardate 
+        print ("\nStardate:           ",stardate )
         time.sleep(0.2 * self.second_coefficient)
-        print "Condition:          ",condition
+        print ("Condition:          ",condition)
         time.sleep(0.2 * self.second_coefficient)
-        print "Energy:             ",energy
+        print ("Energy:             ",energy)
         time.sleep(0.2 * self.second_coefficient)
-        print "Photon torpedoes:   ",torpedoes
+        print( "Photon torpedoes:   ",torpedoes)
         time.sleep(0.2 * self.second_coefficient)
-        print "Shields:            ",shields 
+        print ("Shields:            ",shields )
         time.sleep(0.2 * self.second_coefficient)
-        print "Klingons in galaxy: ",klingons, "\n"
+        print ("Klingons in galaxy: ",klingons, "\n")
         time.sleep(0.2 * self.second_coefficient)
      
     def blurb(self):
-        print "\nSpace ... the final frontier."
+        print ("\nSpace ... the final frontier.")
         time.sleep(1.5 * self.second_coefficient)
-        print "These are the voyages of the starship Enterprise"
-        print "Its five year mission ..."
+        print ("These are the voyages of the starship Enterprise")
+        print( "Its five year mission ...")
         time.sleep(1.5 * self.second_coefficient)
-        print "... to boldly go where no-one has gone before"
+        print ("... to boldly go where no-one has gone before")
         time.sleep(1.5 * self.second_coefficient)
-        print "You are Captain Kirk."
-        print "Your mission is to destroy all of the Klingons in the galaxy."
+        print ("You are Captain Kirk.")
+        print ("Your mission is to destroy all of the Klingons in the galaxy.")
         time.sleep(2.5 * self.second_coefficient)
            
     def promotion(self):
-        print "\nYou have successfully completed your mission!"
-        print "The federation has been saved."
-        print "You have been promoted to Admiral Kirk."
+        print ("\nYou have successfully completed your mission!")
+        print ("The federation has been saved.")
+        print ("You have been promoted to Admiral Kirk.")
         
     def lose(self):
-        print "\nYou are relieved of duty."
+        print ("\nYou are relieved of duty.")
         
     def decode(self, sector):
         # Hundreds = klingons, tens = starbases, units = stars
@@ -234,20 +234,20 @@ class TrekGame(object):
         klingons=False
         for i in range (0,64):
             if i%8 == 0:
-                print
+                print()
                 time.sleep(0.2 * self.second_coefficient)
             if current_sector[i]<0:
                 klingons=True
-                print ">!<",
+                print( ">!<", end=" ")
             elif current_sector[i]==0:
-                print " . ",
+                print (" . ", end=" ")
             elif current_sector[i]==2:
-                print "<O>",
+                print ("<O>", end=" ")
             elif current_sector[i]==3:
-                print " * ",
+                print (" * ", end=" ")
             else:
-                print "-O-",
-        print
+                print ("-O-", end=" ")
+        print()
         # Work out condition
         if klingons == False:
             condition="Green"
@@ -312,26 +312,26 @@ class TrekGame(object):
                             epos=vert+8*horiz
                         i=i+1
                 else:
-                    print "Too little energy left. Only ",energy," units remain"
+                    print ("Too little energy left. Only ",energy," units remain")
             else:
-                print "The engines canna take it, captain!"
+                print ("The engines canna take it, captain!")
         else:
-            print "That's not a direction the Enterprise can go in, captain!"
+            print ("That's not a direction the Enterprise can go in, captain!")
         return(sector,energy,epos,stardate)
         
     def lrs(self, galaxy,sector):
         # Print out the klingons/starbase/stars values from the
         # neighbouring eight sectors (and this one)
         time.sleep(0.2 * self.second_coefficient)
-        print
+        print()
         for i in range (-8,9,8):
             for j in range (-1,2):
                 # Join the ends of the galaxy together
                 sec=self.join(sector+j+i)
-                print "%03d" % galaxy[sec],
+                print ("%03d" % galaxy[sec])
                 time.sleep(0.2 * self.second_coefficient)
-            print
-        print
+            print()
+        print()
         
     def phasers(self, condition,shields,energy,sector,epos,ksec, test_arg=None):
         power=int(self.test_input('Phaser energy? ', test_arg))
@@ -366,22 +366,22 @@ class TrekGame(object):
                             sector[i]=0
                             # Decrement sector klingons
                             ksec=ksec-1
-                            print "Klingon destroyed!"
+                            print ("Klingon destroyed!")
                             time.sleep(0.2 * self.second_coefficient)
                         else:
                             # We have a hit on Enterprise's shields if not docked
                             if condition != "Docked":
                                 damage=int(power/dist)
                                 shields=shields-damage
-                                print "Hit on shields: ",damage," energy units"
+                                print ("Hit on shields: ",damage," energy units")
                                 time.sleep(0.2 * self.second_coefficient)
         else:
-            print "Not enough energy, Captain!"
+            print ("Not enough energy, Captain!")
         return(shields,energy,sector,ksec)
         
     def photontorpedoes(self, torpedoes,sector,epos,ksec, test_arg=None):
         if torpedoes < 1:
-            print "No photon torpedoes left, captain!"
+            print ("No photon torpedoes left, captain!")
         else:
             direction=int(self.test_input('Fire in direction(1-4,6-9)? ', test_arg))
             if direction >=1 and direction <=9 and direction !=5:
@@ -403,7 +403,7 @@ class TrekGame(object):
                     # Is the torpedo still in the sector?
                     if vert < 0 or vert > 7 or horiz < 0 or horiz > 7:
                         out=True
-                        print "Torpedo missed"
+                        print ("Torpedo missed")
                     else:
                         # Have we hit an object?
                         if sector[vert+8*horiz] == 2:
@@ -411,21 +411,21 @@ class TrekGame(object):
                             out=True
                             sector[vert+8*horiz] = 0
                             energy=0
-                            print "Starbase destroyed"
+                            print ("Starbase destroyed")
                         elif sector[vert+8*horiz] == 3:
                             # Shooting a torpedo into a star has no effect
                             out=True
-                            print "Torpedo missed"
+                            print ("Torpedo missed")
                         elif sector[vert+8*horiz] < 0:
                             # Hit and destroyed a Klingon!
                             out=True
                             sector[vert+8*horiz] = 0
                             ksec = ksec - 1
-                            print "Klingon destroyed!"
+                            print ("Klingon destroyed!")
                 # One fewer torpedo
                 torpedoes = torpedoes-1
             else:
-                print "Your command is not logical, Captain."
+                print ("Your command is not logical, Captain.")
         return(torpedoes,sector,ksec)
 
     def addshields(self, energy,shields, test_arg=None):
@@ -488,12 +488,12 @@ class TrekGame(object):
 
     def showhelp(self):
         # Print out the command help
-        print "1 - Helm"
-        print "2 - Long Range Scan"
-        print "3 - Phasers"
-        print "4 - Photon Torpedoes"
-        print "5 - Shields"
-        print "6 - Resign"
+        print ("1 - Helm")
+        print ("2 - Long Range Scan")
+        print ("3 - Phasers")
+        print ("4 - Photon Torpedoes")
+        print ("5 - Shields")
+        print ("6 - Resign")
     
 if __name__ == '__main__':
     game = TrekGame()
